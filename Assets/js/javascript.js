@@ -5,6 +5,8 @@ canvas.height = 550;
 
 let enemys = [];
 let frames = 0;
+let score = 0;
+let lives = 10;
 // class EnemysAttack {
 //   constructor(img, sX, sY, sWidth, sHeight, x, y, width, height) {
 //     this.img = img;
@@ -43,34 +45,52 @@ let frames = 0;
 const player = {
   x: 250,
   y: 320,
-  width: 70,
-  height: 70,
+  width: 42,
+  height: 55,
   frameX: 0,
   frameY: 0,
   speed: 15,
   moving: false,
 };
 
-// NPC
-const skeleton = {
-  x: canvas.width,
-  y: Math.random() * 400,
-  width: 40,
-  height: 80,
-  frameX: 0,
-  frameY: 0,
-  speed: 18,
-  moving: true,
-};
+// NPCs
+function skeleton() {
+  return {
+    x: canvas.width,
+    y: Math.random() * 400,
+    width: 25,
+    height: 56,
+    frameX: 0,
+    frameY: 0,
+    speed: 2,
+    moving: true,
+  };
+}
+
+function zombi1() {
+  return {
+    x: canvas.width,
+    y: Math.random() * 400,
+    width: 25,
+    height: 56,
+    frameX: 0,
+    frameY: 0,
+    speed: 2,
+    moving: true,
+  };
+}
 
 const bgImg = new Image(); //BACKGROUND
 bgImg.src = "/Assets/images/game_bg.png";
 
 const mjImg = new Image();
-mjImg.src = "/Assets/images/game_mj1.png";
+mjImg.src = "/Assets/images/game_mj1-01.png";
 
 const skeletonImg = new Image();
-skeletonImg.src = "/Assets/images/skeleton.png";
+skeletonImg.src = "/Assets/images/skeleton-01-01.png";
+
+const zombi1Img = new Image();
+zombi1Img.src = "/Assets/images/zombi.png";
 
 function draw(img, sX, sY, sWidth, sHeight, x, y, width, height) {
   ctx.drawImage(img, sX, sY, sWidth, sHeight, x, y, width, height);
@@ -91,19 +111,17 @@ function animationId() {
     player.width,
     player.height
   );
-  draw(
-    skeletonImg,
-    skeleton.width * skeleton.frameX,
-    skeleton.width * skeleton.frameY,
-    skeleton.width,
-    skeleton.height,
-    skeleton.x,
-    skeleton.y,
-    skeleton.width,
-    skeleton.height
-  );
-  skeletonFrame();
+  ctx.font = "14px PressStart2p ";
+  ctx.fillStyle = "white";
+  ctx.fillText(`SCORE: ${score}`, 600, 65);
 
+  ctx.font = "14px  PressStart2p";
+  ctx.fillStyle = "white";
+  ctx.fillText(`LIVES: ${lives}`, 750, 65);
+
+  attackFrame();
+  skeletonFrame();
+  checkGameOver();
   requestAnimationFrame(animationId);
 }
 
@@ -118,30 +136,57 @@ function playerFrame() {
     player.frameX = 0;
   }
 }
-
 function skeletonFrame() {
-  // FRAME ATTACK
-  this.frames++;
-
-  if (this.frames % 120 === 0) {
-    skeleton.X = 900;
-    const minY = 150;
-    const maxY = 470;
-    const RandomY = Math.floor(Math.random() * (maxY - minY + 1)) + minX;
-
-    const enemy = (RandomY, skeleton.X);
-    this.enemys.push(enemy);
-    for (let i = 0; i < this.enemys.length; i++) {
-      this.x += this.speed;
-      this.enemys[i].draw();
-    }
-  }
-
-  // FRAME MOVIMENTOS
-  if (skeleton.FrameX < 6 && skeleton.moving === true) {
+  setInterval(skeletonFrame, 5000);
+  if (skeleton.FrameX < 1 && skeleton.moving === true) {
     skeleton.FrameX++;
   } else {
     skeleton.FrameX = 0;
+  }
+}
+
+// FRAME ATTACK
+function attackFrame() {
+  frames++;
+
+  for (let i = 0; i < enemys.length; i++) {
+    enemys[i].x -= enemys[i].speed && enemys[i].x > 170;
+    draw(
+      skeletonImg,
+      enemys[i].width * enemys[i].frameX,
+      enemys[i].width * enemys[i].frameY,
+      enemys[i].width,
+      enemys[i].height,
+      enemys[i].x,
+      enemys[i].y,
+      enemys[i].width,
+      enemys[i].height
+    );
+
+    //COLLISION
+    if (
+      player.x < enemys[i].x + enemys[i].width &&
+      player.x + player.width > enemys[i].x &&
+      player.y < enemys[i].y + enemys[i].height &&
+      player.y + player.height > enemys[i].y
+    ) {
+      enemys.splice(i, 1);
+      score++;
+      console.log("score: " + score);
+    }
+    if (enemys[i].x < 200) {
+      enemys.splice(i, 1);
+      lives--;
+    }
+  }
+  if (frames % 120 === 0) {
+    skeleton.X = 900;
+    const minY = 150;
+    const maxY = 470;
+    const RandomY = Math.floor(Math.random() * (maxY - minY + 1)) + minY;
+    const enemy1 = skeleton();
+    enemy1.y = RandomY;
+    enemys.push(enemy1);
   }
 }
 
@@ -186,3 +231,13 @@ window.addEventListener("keyup", (event) => {
   delete event.code;
   player.moving = false;
 });
+
+function checkGameOver() {
+  if (lives <= 0) {
+    cancelAnimationFrame(animationId);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font = "200px PressStart2P";
+    ctx.fillStyle = "white";
+    ctx.fillText("GAME OVER", 400, 250);
+  }
+}

@@ -1,14 +1,19 @@
 html {
   background: black;
+  font-family: "Press Start 2P", cursive;
 }
-
+@font-face {
+  font-family: "Press Start 2P", cursive;
+  src: url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+}
 #the-canvas {
   border: 1px solid #ac5cb7;
-  background: #0c6d33;
+  background: black;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: auto;
+  font-family: "Press Start 2P", cursive;
 }
 
 body button {
@@ -20,4 +25,5 @@ body button {
   box-shadow: 0;
   border-radius: 5px;
   top: 50px;
+  font-family: "Press Start 2P", cursive;
 }
