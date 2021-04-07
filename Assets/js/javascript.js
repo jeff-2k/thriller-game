@@ -36,28 +36,28 @@ function zombie() {
 
 // ----- IMAGES -----
 const bgImg = new Image(); //BACKGROUND
-bgImg.src = "/Assets/images/game_bg.png";
+bgImg.src = "./Assets/images/game_bg.png";
 
 const mjImg = new Image();
-mjImg.src = "/Assets/images/game_mj1-01.png";
+mjImg.src = "./Assets/images/game_mj1-01.png";
 
 const zombieImg = new Image();
-zombieImg.src = "/Assets/images/zombi.png";
+zombieImg.src = "./Assets/images/zombi.png";
 
 const smokeImg = new Image();
-smokeImg.src = "/Assets/images/smooke-01.png";
+smokeImg.src = "./Assets/images/smooke-01.png";
 
 const gameOverImg = new Image();
-gameOverImg.src = "/Assets/images/thriller-gameover-01.png";
+gameOverImg.src = "./Assets/images/thriller-gameover-01.png";
 
 // ----- AUDIOS -----
 const laugh = new Audio();
-laugh.src = "/Assets/musics/y2mate.com - Thriller laugh.mp3";
+laugh.src = "./Assets/musics/y2mate.com - Thriller laugh.mp3";
 laugh.volume = 0.1;
 
 const soundtrack = new Audio();
 soundtrack.src =
-  "/Assets/musics/y2mate.com - Thriller 8 Bit Remix Cover Version Tribute to Michael Jackson  8 Bit Universe.mp3";
+  "./Assets/musics/y2mate.com - Thriller 8 Bit Remix Cover Version Tribute to Michael Jackson  8 Bit Universe.mp3";
 soundtrack.volume = 0.1;
 
 // ----- DRAW -----
