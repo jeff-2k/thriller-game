@@ -8,7 +8,7 @@ let frames = 0;
 let score = 0;
 let lives = 10;
 
-// PLAYER
+// ----- PLAYER -----
 const player = {
   x: 250,
   y: 320,
@@ -20,30 +20,29 @@ const player = {
   moving: false,
 };
 
-// NPCs
-function zombi() {
+// ----- ZOMBIE -----
+function zombie() {
   return {
     x: canvas.width,
     y: Math.random() * 400,
-    width: 28,
+    width: 27,
     height: 56,
-    frameX: 1,
+    frameX: 0,
     frameY: 0,
     speed: 20,
     moving: true,
   };
 }
 
-//IMAGES
-
+// ----- IMAGES -----
 const bgImg = new Image(); //BACKGROUND
 bgImg.src = "/Assets/images/game_bg.png";
 
 const mjImg = new Image();
 mjImg.src = "/Assets/images/game_mj1-01.png";
 
-const zombiImg = new Image();
-zombiImg.src = "/Assets/images/zombi.png";
+const zombieImg = new Image();
+zombieImg.src = "/Assets/images/zombi.png";
 
 const smokeImg = new Image();
 smokeImg.src = "/Assets/images/smooke-01.png";
@@ -51,7 +50,7 @@ smokeImg.src = "/Assets/images/smooke-01.png";
 const gameOverImg = new Image();
 gameOverImg.src = "/Assets/images/thriller-gameover-01.png";
 
-//AUDIOS
+// ----- AUDIOS -----
 const laugh = new Audio();
 laugh.src = "/Assets/musics/y2mate.com - Thriller laugh.mp3";
 laugh.volume = 0.1;
@@ -61,11 +60,18 @@ soundtrack.src =
   "/Assets/musics/y2mate.com - Thriller 8 Bit Remix Cover Version Tribute to Michael Jackson  8 Bit Universe.mp3";
 soundtrack.volume = 0.1;
 
+// ----- DRAW -----
 function draw(img, sX, sY, sWidth, sHeight, x, y, width, height) {
   ctx.drawImage(img, sX, sY, sWidth, sHeight, x, y, width, height);
 }
 
-//UPDATE GAME
+// ----- STARTGAME -----
+document.getElementById("start-button").onclick = () => {
+  playerFrame();
+  animationId();
+};
+
+// ----- UPDATE GAME -----
 function animationId() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
@@ -94,7 +100,7 @@ function animationId() {
   requestAnimationFrame(animationId);
 }
 
-// FRAME MOVIMENTOS
+// ----- FRAME PLAYER MOVIMENTS -----
 function playerFrame() {
   if (player.frameX < 1 && player.moving === true) {
     player.frameX++;
@@ -103,14 +109,14 @@ function playerFrame() {
   }
 }
 
-// FRAME ATTACK
+// ----- FRAME ENEMYS ATTACK -----
 function attackFrame() {
   frames++;
 
   for (let i = 0; i < enemys.length; i++) {
     enemys[i].x -= enemys[i].speed && enemys[i].x > 170;
     draw(
-      zombiImg,
+      zombieImg,
       enemys[i].width * enemys[i].frameX,
       enemys[i].width * enemys[i].frameY,
       enemys[i].width,
@@ -121,14 +127,14 @@ function attackFrame() {
       enemys[i].height
     );
 
-    //COLLISION
+    // ----- COLLISION -----
     if (
       player.x < enemys[i].x + enemys[i].width &&
       player.x + player.width > enemys[i].x &&
       player.y < enemys[i].y + enemys[i].height &&
       player.y + player.height > enemys[i].y
     ) {
-      ctx.drawImage(smokeImg, enemys[i].x, enemys[i].y, 80, 70);
+      // ctx.drawImage(smokeImg, enemys[i].x, enemys[i].y, 80, 70);
       enemys.splice(i, 1);
       score++;
     } else if (enemys[i].x < 200) {
@@ -137,17 +143,17 @@ function attackFrame() {
     }
   }
   if (frames % 120 === 0) {
-    zombi.x = 900;
+    zombie.x = 900;
     const minY = 150;
     const maxY = 470;
     const RandomY = Math.floor(Math.random() * (maxY - minY + 1)) + minY;
-    const enemy1 = zombi();
+    const enemy1 = zombie();
     enemy1.y = RandomY;
     enemys.push(enemy1);
   }
 }
 
-// MOVIMENTOS PLAYER
+// ----- PLAYER DIRECTIONS -----
 window.addEventListener("keydown", function (event) {
   player.moving = true;
   if (event.code === "ArrowUp" && player.y > 150) {
@@ -189,7 +195,13 @@ window.addEventListener("keyup", (event) => {
   player.moving = false;
 });
 
-// GAMEOVER
+// ----- STARTGAME -----
+document.getElementById("start-button").onclick = () => {
+  playerFrame();
+  animationId();
+};
+
+// ----- GAMEOVER -----
 function checkGameOver() {
   if (lives <= 0) {
     cancelAnimationFrame(animationId);
@@ -207,8 +219,3 @@ function checkGameOver() {
     soundtrack.pause();
   }
 }
-
-document.getElementById("start-button").onclick = () => {
-  playerFrame();
-  animationId();
-};
