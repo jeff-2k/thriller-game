@@ -8,7 +8,7 @@ html {
 }
 #the-canvas {
   border: 1px solid darkred;
-  background-image: url("./Assets/images/thriller-startgame_01.png");
+  background-image: url("/Assets/images/thriller-startgame_01.png");
   background-repeat: no-repeat;
   background-size: contain;
   display: flex;
