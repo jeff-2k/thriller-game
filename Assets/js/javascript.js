@@ -7,39 +7,6 @@ let enemys = [];
 let frames = 0;
 let score = 0;
 let lives = 10;
-// class EnemysAttack {
-//   constructor(img, sX, sY, sWidth, sHeight, x, y, width, height) {
-//     this.img = img;
-//     this.x = x;
-//     this.y = y;
-//     this.width = width;
-//     this.height = height;
-//     this.frames = 0;
-//   }
-
-//   update() {
-//     this.frames++;
-
-//     for (let i = 0; i < this.enemys.length; i++) {
-//       this.x += this.speed;
-//       this.enemys[i].draw();
-//     }
-
-//     if (this.frames % 120 === 0) {
-//       const originX = 900;
-//       const minY = 150;
-//       const maxY = 470;
-//       const RandomY = Math.floor(Math.random() * (maxY - minY + 1)) + minX;
-
-//       const enemy = (RandomY, originX);
-//       this.enemys.push(enemy);
-//     }
-//   }
-
-//   draw() {
-//     ctx.drawImage(img, sX, sY, sWidth, sHeight, x, y, width, height);
-//   }
-// }
 
 // PLAYER
 const player = {
@@ -54,31 +21,20 @@ const player = {
 };
 
 // NPCs
-function skeleton() {
+function zombi() {
   return {
     x: canvas.width,
     y: Math.random() * 400,
-    width: 25,
+    width: 28,
     height: 56,
-    frameX: 0,
+    frameX: 1,
     frameY: 0,
-    speed: 2,
+    speed: 20,
     moving: true,
   };
 }
 
-function zombi1() {
-  return {
-    x: canvas.width,
-    y: Math.random() * 400,
-    width: 25,
-    height: 56,
-    frameX: 0,
-    frameY: 0,
-    speed: 2,
-    moving: true,
-  };
-}
+//IMAGES
 
 const bgImg = new Image(); //BACKGROUND
 bgImg.src = "/Assets/images/game_bg.png";
@@ -86,11 +42,24 @@ bgImg.src = "/Assets/images/game_bg.png";
 const mjImg = new Image();
 mjImg.src = "/Assets/images/game_mj1-01.png";
 
-const skeletonImg = new Image();
-skeletonImg.src = "/Assets/images/skeleton-01-01.png";
+const zombiImg = new Image();
+zombiImg.src = "/Assets/images/zombi.png";
 
-const zombi1Img = new Image();
-zombi1Img.src = "/Assets/images/zombi.png";
+const smokeImg = new Image();
+smokeImg.src = "/Assets/images/smooke-01.png";
+
+const gameOverImg = new Image();
+gameOverImg.src = "/Assets/images/thriller-gameover-01.png";
+
+//AUDIOS
+const laugh = new Audio();
+laugh.src = "/Assets/musics/y2mate.com - Thriller laugh.mp3";
+laugh.volume = 0.1;
+
+const soundtrack = new Audio();
+soundtrack.src =
+  "/Assets/musics/y2mate.com - Thriller 8 Bit Remix Cover Version Tribute to Michael Jackson  8 Bit Universe.mp3";
+soundtrack.volume = 0.1;
 
 function draw(img, sX, sY, sWidth, sHeight, x, y, width, height) {
   ctx.drawImage(img, sX, sY, sWidth, sHeight, x, y, width, height);
@@ -119,14 +88,11 @@ function animationId() {
   ctx.fillStyle = "white";
   ctx.fillText(`LIVES: ${lives}`, 750, 65);
 
+  soundtrack.play();
   attackFrame();
-  skeletonFrame();
   checkGameOver();
   requestAnimationFrame(animationId);
 }
-
-playerFrame();
-animationId();
 
 // FRAME MOVIMENTOS
 function playerFrame() {
@@ -134,14 +100,6 @@ function playerFrame() {
     player.frameX++;
   } else {
     player.frameX = 0;
-  }
-}
-function skeletonFrame() {
-  setInterval(skeletonFrame, 5000);
-  if (skeleton.FrameX < 1 && skeleton.moving === true) {
-    skeleton.FrameX++;
-  } else {
-    skeleton.FrameX = 0;
   }
 }
 
@@ -152,7 +110,7 @@ function attackFrame() {
   for (let i = 0; i < enemys.length; i++) {
     enemys[i].x -= enemys[i].speed && enemys[i].x > 170;
     draw(
-      skeletonImg,
+      zombiImg,
       enemys[i].width * enemys[i].frameX,
       enemys[i].width * enemys[i].frameY,
       enemys[i].width,
@@ -170,21 +128,20 @@ function attackFrame() {
       player.y < enemys[i].y + enemys[i].height &&
       player.y + player.height > enemys[i].y
     ) {
+      ctx.drawImage(smokeImg, enemys[i].x, enemys[i].y, 80, 70);
       enemys.splice(i, 1);
       score++;
-      console.log("score: " + score);
-    }
-    if (enemys[i].x < 200) {
+    } else if (enemys[i].x < 200) {
       enemys.splice(i, 1);
       lives--;
     }
   }
   if (frames % 120 === 0) {
-    skeleton.X = 900;
+    zombi.x = 900;
     const minY = 150;
     const maxY = 470;
     const RandomY = Math.floor(Math.random() * (maxY - minY + 1)) + minY;
-    const enemy1 = skeleton();
+    const enemy1 = zombi();
     enemy1.y = RandomY;
     enemys.push(enemy1);
   }
@@ -232,12 +189,26 @@ window.addEventListener("keyup", (event) => {
   player.moving = false;
 });
 
+// GAMEOVER
 function checkGameOver() {
   if (lives <= 0) {
     cancelAnimationFrame(animationId);
+    laugh.play();
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.font = "200px PressStart2P";
+    ctx.drawImage(gameOverImg, 0, 0, canvas.width, canvas.height);
+    // ctx.fillStyle = "black";
+    // ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.font = "60px PressStart2P";
     ctx.fillStyle = "white";
-    ctx.fillText("GAME OVER", 400, 250);
+    ctx.fillText("GAME OVER", 195, 300);
+
+    soundtrack.pause();
   }
 }
+
+document.getElementById("start-button").onclick = () => {
+  playerFrame();
+  animationId();
+};
