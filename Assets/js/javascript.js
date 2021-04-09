@@ -4,6 +4,7 @@ canvas.width = 900;
 canvas.height = 550;
 
 let enemys = [];
+let smokeArr = [];
 let frames = 0;
 let score = 0;
 let lives = 10;
@@ -30,6 +31,19 @@ function zombie() {
     frameX: 0,
     frameY: 0,
     speed: 20,
+    moving: true,
+  };
+}
+
+function smoke() {
+  return {
+    x: canvas.width,
+    y: Math.random() * 400,
+    width: 25,
+    height: 55,
+    frameX: 0,
+    frameY: 0,
+    speed: 1,
     moving: true,
   };
 }
@@ -134,7 +148,11 @@ function attackFrame() {
       player.y < enemys[i].y + enemys[i].height &&
       player.y + player.height > enemys[i].y
     ) {
-      // ctx.drawImage(smokeImg, enemys[i].x, enemys[i].y, 80, 70);
+      const smokeObj = smoke();
+      smokeObj.x = enemys[i].x;
+      smokeObj.y = enemys[i].y;
+      smokeArr.push(smokeObj);
+
       enemys.splice(i, 1);
       score++;
     } else if (enemys[i].x < 200) {
@@ -209,12 +227,10 @@ function checkGameOver() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(gameOverImg, 0, 0, canvas.width, canvas.height);
-    // ctx.fillStyle = "black";
-    // ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.font = "60px PressStart2P";
+    ctx.font = "50px PressStart2P";
     ctx.fillStyle = "white";
-    ctx.fillText("GAME OVER", 195, 300);
+    ctx.fillText("GAME OVER", 225, 450);
 
     soundtrack.pause();
   }
