@@ -8,7 +8,7 @@ html {
 }
 #the-canvas {
   border: 1px solid darkred;
-  background-image: url("/Assets/images/thriller-startgame_01.png");
+  background-image: url("../images/thriller-startgame_01.png");
   background-repeat: no-repeat;
   background-size: contain;
   display: flex;
@@ -24,8 +24,11 @@ p {
   background-color: black;
   color: darkred;
   font-family: "Press Start 2P", cursive;
-  margin-top: 30px;
-  margin-left: 36%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2%;
+  padding: 0;
 }
 
 body button {
@@ -37,6 +40,9 @@ body button {
   box-shadow: 0;
   border-radius: 5px;
   font-family: "Press Start 2P", cursive;
-  margin-top: 20px;
-  margin-left: 38%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  margin-top: 2%;
 }
