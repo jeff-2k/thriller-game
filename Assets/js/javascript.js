@@ -103,7 +103,7 @@ function animationId() {
     player.width,
     player.height
   );
-  ctx.font = "18px PressStart2p ";
+  ctx.font = "18px PressStart2p";
   ctx.fillStyle = "white";
   ctx.fillText(`SCORE: ${score}`, 600, 65);
 
