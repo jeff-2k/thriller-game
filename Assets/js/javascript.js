@@ -103,11 +103,11 @@ function animationId() {
     player.width,
     player.height
   );
-  ctx.font = "14px PressStart2p ";
+  ctx.font = "18px PressStart2p ";
   ctx.fillStyle = "white";
-  ctx.fillText(`SCORE: ${score}`, 600, 65);
+  ctx.fillText(`SCORE: ${score}`, 650, 65);
 
-  ctx.font = "14px  PressStart2p";
+  ctx.font = "18px  PressStart2p";
   ctx.fillStyle = "white";
   ctx.fillText(`LIVES: ${lives}`, 750, 65);
 
@@ -231,7 +231,7 @@ function checkGameOver() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(gameOverImg, 0, 0, canvas.width, canvas.height);
 
-    ctx.font = "50px PressStart2P";
+    ctx.font = "75px PressStart2P";
     ctx.fillStyle = "white";
     ctx.fillText("GAME OVER", 225, 450);
 
