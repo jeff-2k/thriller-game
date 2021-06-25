@@ -32,17 +32,15 @@ p {
 }
 
 body button {
-  font-size: 28px;
+  font-size: 14px;
   background-color: black;
   color: darkred;
-  padding: 18px 38px;
+  padding: 10px 38px;
   border: 1 solid red;
   box-shadow: 0;
   border-radius: 5px;
   font-family: "Press Start 2P", cursive;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative;
+  left: 32%;
   margin: auto;
-  margin-top: 2%;
 }

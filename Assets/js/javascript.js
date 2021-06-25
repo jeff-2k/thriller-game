@@ -8,6 +8,9 @@ let smokeArr = [];
 let frames = 0;
 let score = 0;
 let lives = 10;
+let restartBtn = document.getElementById("restart-button")
+restartBtn.addEventListener("click", restart)
+
 
 // ----- PLAYER -----
 const player = {
@@ -234,4 +237,14 @@ function checkGameOver() {
 
     soundtrack.pause();
   }
+
+// ----- RESTART GAME -----
+document.getElementById("restart-button").onclick = () => {
+  restart()
+}
+}
+
+// ----- RESET -----
+function restart() {
+  location.reload();
 }
