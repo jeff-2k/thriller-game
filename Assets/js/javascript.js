@@ -38,18 +38,18 @@ function zombie() {
   };
 }
 
-function smoke() {
-  return {
-    x: canvas.width,
-    y: Math.random() * 400,
-    width: 25,
-    height: 55,
-    frameX: 0,
-    frameY: 0,
-    speed: 1,
-    moving: true,
-  };
-}
+// function smoke() {
+//   return {
+//     x: canvas.width,
+//     y: Math.random() * 400,
+//     width: 25,
+//     height: 55,
+//     frameX: 0,
+//     frameY: 0,
+//     speed: 1,
+//     moving: true,
+//   };
+// }
 
 // ----- IMAGES -----
 const bgImg = new Image(); //BACKGROUND
